@@ -1,0 +1,12 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head data-th-replace="fragments/headerTag :: headerTag"/>
+    <body>
+        <div data-th-include="fragments/bodyHeader" th:remove="tag"/>
+        <div class="container">
+            <h1>Pagina Contact</h1>
+            <p> Aceasta scoala este situata in judetul Gorj comuna Telesti.</p>
+        </div>
+        <div data-th-include="fragments/footer"/>
+    </body>
+</html>
