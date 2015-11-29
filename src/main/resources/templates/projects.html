@@ -2,9 +2,9 @@
       xmlns:th="http://www.thymeleaf.org">
     <head data-th-replace="fragments/headerTag :: headerTag"/>
     <body>
-        <div data-th-include = "fragments/bodyHeader" th:remove = "tag"/>
-        <div class = "container">
-            <ul class = "collection" th:each = "news : ${pageNews}">
+        <div data-th-include="fragments/bodyHeader" th:remove="tag"/>
+        <div class="container">
+             <ul class = "collection" th:each = "news : ${pageNews}">
                 <li class="collection-item avatar" >
                     <i class = "material-icons circle blue">input</i>
                     <span class = "title" th:text = "${news.headline}"/>
@@ -13,6 +13,6 @@
                 </li>
             </ul>
         </div>
-        <div data-th-include = "fragments/footer"/>
+        <div data-th-include="fragments/footer"/>
     </body>
 </html>

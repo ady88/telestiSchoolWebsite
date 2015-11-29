@@ -6,18 +6,9 @@
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo">Scoala Generala Telesti</a>
 
-                <ul class="right hide-on-med-and-down">
+                <ul class="right hide-on-med-and-down" th:each = "info : ${infos}">
                     <li>
-                        <a data-th-href="@{/home}">acasa</a>
-                    </li>
-                    <li>
-                        <a data-th-href="@{/events}">evenimente</a>
-                    </li>
-                    <li>
-                        <a data-th-href="@{/history}">istoric</a>
-                    </li>
-                    <li>
-                        <a data-th-href="@{/contact}">contact</a>
+                        <a data-th-href="${info.urlInfo}" th:text="${info.name}"/>
                     </li>
                 </ul>
             </div>
