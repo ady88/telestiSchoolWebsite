@@ -1,33 +1,44 @@
 package home.telestischool;
 
-import home.telestischool.model.PageInfo;
-import java.net.URI;
-import java.net.URISyntaxException;
+import home.telestischool.service.IWebPageService;
+import home.telestischool.service.MockSchoolWebPageService;
+import home.telestischool.service.SchoolWebPageService;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
-import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.SimpleThreadScope;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.web.context.request.RequestContextListener;
 
 @SpringBootApplication
-@EnableJpaRepositories("home.telestischool.repository")
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
+    HibernateJpaAutoConfiguration.class,
+    DataSourceTransactionManagerAutoConfiguration.class})
 public class TelestischoolApplication {
-
-    private static final Logger LOG = Logger.getLogger(TelestischoolApplication.class.getName());
 
     public static void main(String[] args) {
         SpringApplication.run(TelestischoolApplication.class, args);
     }
+
+//    @Bean
+//    @Qualifier("b")
+//    public IWebPageService mockWebPageService() {
+//        return new MockSchoolWebPageService();
+//    }
+
+//    @Bean
+//    @Qualifier("a")
+//    public IWebPageService webPageService() {
+//        return new SchoolWebPageService();
+//    }
 
     /**
      * Needed to be able to inject session beans in the Controller class. Build
@@ -59,42 +70,46 @@ public class TelestischoolApplication {
         return new RequestContextListener();
     }
 
-    @Bean
-    public DataSource dataSource() throws URISyntaxException {
-        String databaseUrl = System.getenv("DATABASE_URL");
-        if (databaseUrl == null) {
-            LOG.severe("the database URL is null");
-            return null;
-        }
-        LOG.info(String.format("The databaseUrl is: %s", databaseUrl));
-        URI dbUri = new URI(databaseUrl);
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath() + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-
-        LOG.info(String.format("the final dbURL is: %s", dbUrl));
-
-        return DataSourceBuilder
-                .create()
-                .username(username)
-                .password(password)
-                .url(dbUrl)
-                .driverClassName("org.postgresql.Driver")
-                .build();
-
-    }
-
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-            EntityManagerFactoryBuilder builder) throws URISyntaxException {
-        return builder
-                .dataSource(dataSource())
-                .packages(PageInfo.class)
-                .persistenceUnit("d6prbg1ceja1kq")
-                .build();
-    }
-
+//    @Bean
+//    @Qualifier("b")
+//    public IWebPageService webPageService() {
+//        return new MockSchoolWebPageService();
+//    }
+//    @Bean
+//    public DataSource dataSource() throws URISyntaxException {
+//        String databaseUrl = System.getenv("DATABASE_URL");
+//        if (databaseUrl == null) {
+//            LOG.severe("the database URL is null");
+//            return null;
+//        }
+//        LOG.info(String.format("The databaseUrl is: %s", databaseUrl));
+//        URI dbUri = new URI(databaseUrl);
+//
+//        String username = dbUri.getUserInfo().split(":")[0];
+//        String password = dbUri.getUserInfo().split(":")[1];
+//        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath() + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+//
+//        LOG.info(String.format("the final dbURL is: %s", dbUrl));
+//
+//        return DataSourceBuilder
+//                .create()
+//                .username(username)
+//                .password(password)
+//                .url(dbUrl)
+//                .driverClassName("org.postgresql.Driver")
+//                .build();
+//
+//    }
+//
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+//            EntityManagerFactoryBuilder builder) throws URISyntaxException {
+//        return builder
+//                .dataSource(dataSource())
+//                .packages(PageInfo.class)
+//                .persistenceUnit("d6prbg1ceja1kq")
+//                .build();
+//    }
 //    @Bean
 //    public CommandLineRunner demo(PageInfoRepository repository, PageNewsRepository newsRepository) {
 //        return (String[] args) -> {

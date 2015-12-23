@@ -34,6 +34,13 @@ public class PageInfo implements Serializable {
         this.language = language;
     }
 
+    public PageInfo(long id, String name, String language, String urlInfo) {
+        this.id = id;
+        this.name = name;
+        this.language = language;
+        this.urlInfo = urlInfo;
+    }
+
     public long getId() {
         return id;
     }

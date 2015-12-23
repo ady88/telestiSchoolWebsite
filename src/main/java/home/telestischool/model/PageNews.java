@@ -23,6 +23,15 @@ public class PageNews implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    public PageNews(long id, String namePage, String headline, String content, Date addDate, String language) {
+        this.id = id;
+        this.namePage = namePage;
+        this.headline = headline;
+        this.content = content;
+        this.addDate = addDate;
+        this.language = language;
+    }
+
     @Column(name = "name_page")
     private String namePage;
 

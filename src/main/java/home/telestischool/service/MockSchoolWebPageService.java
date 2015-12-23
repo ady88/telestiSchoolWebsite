@@ -2,16 +2,13 @@ package home.telestischool.service;
 
 import home.telestischool.model.PageInfo;
 import home.telestischool.model.PageNews;
-import home.telestischool.repository.PageInfoRepository;
-import home.telestischool.repository.PageNewsRepository;
-import home.telestischool.utils.WebAppConstants;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -23,18 +20,12 @@ import org.springframework.stereotype.Service;
  *
  * @author adrian
  */
-@Service(value = "a")
+@Service(value = "b")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-@Profile("production")
-public class SchoolWebPageService implements IWebPageService {
+@Profile("test")
+public class MockSchoolWebPageService implements IWebPageService {
 
-    private static final Logger LOG = Logger.getLogger(SchoolWebPageService.class.getName());
-
-    @Autowired
-    private PageInfoRepository pageInfoRepository;
-
-    @Autowired
-    private PageNewsRepository pageNewsRepository;
+    private static final Logger LOG = Logger.getLogger(MockSchoolWebPageService.class.getName());
 
     private List<PageInfo> pageInformations;
 
@@ -47,13 +38,7 @@ public class SchoolWebPageService implements IWebPageService {
 
     @Override
     public void refreshData() {
-        pageInformations = pageInfoRepository.findByLanguage(WebAppConstants.DEFAULT_LANGUAGE);
-        pageNewsMap = new HashMap<>();
-        for (PageInfo pageInfo : pageInformations) {
-            final String pageName = pageInfo.getName();
-            List<PageNews> items = pageNewsRepository.findByNamePageAndLanguage(pageName, WebAppConstants.DEFAULT_LANGUAGE);
-            pageNewsMap.put(pageName, items);
-        }
+        createMockData();
     }
 
     @Override
@@ -72,6 +57,35 @@ public class SchoolWebPageService implements IWebPageService {
 
     @Override
     public void addPageNews(PageNews pageNews) {
-        pageNewsRepository.save(pageNews);
+        final String namePage = pageNews.getNamePage();
+        if (pageNewsMap.containsKey(namePage)) {
+            pageNewsMap.get(namePage).add(pageNews);
+        } else {
+            pageNewsMap.put(namePage, Arrays.asList(pageNews));
+        }
     }
+
+    private void createMockData() {
+        pageInformations = createMockPageInfos();
+        pageNewsMap = createMockPageNews();
+    }
+
+    private List<PageInfo> createMockPageInfos() {
+        List<PageInfo> infos = new ArrayList<>();
+        PageInfo info1 = new PageInfo(0, "despre noi", "ro", "/home");
+        PageInfo info2 = new PageInfo(1, "profesorii nostri", "ro", "/teachers");
+        PageInfo info3 = new PageInfo(2, "informatii utile", "ro", "/news");
+        PageInfo info4 = new PageInfo(3, "contact", "ro", "/contact");
+        infos.add(info1);
+        infos.add(info2);
+        infos.add(info3);
+        infos.add(info4);
+        return infos;
+    }
+
+    private Map<String, List<PageNews>> createMockPageNews() {
+        Map<String, List<PageNews>> news = new HashMap<>();
+        return news;
+    }
+
 }

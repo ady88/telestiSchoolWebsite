@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/teachers", "/news", "/contact", "/projects",
-                        "/db", "/admin",
+                        "/db", "/admin", "/saveHome",
                         "/favicon.ico",
                         "/resources/style.css",
                         "/webjars/materializecss/0.97.0/**",

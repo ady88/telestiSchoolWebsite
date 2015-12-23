@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>rebuild</actionName>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <Env.DATABASE_URL>postgres://wuwyvcrzjcydnv:8vG7aUP7tO8M4JaXrryQQAZlqH@ec2-54-197-245-93.compute-1.amazonaws.com:5432/d6prbg1ceja1kq</Env.DATABASE_URL>
+            </properties>
+        </action>
+        <action>
+            <actionName>build</actionName>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
+            <goals>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <Env.DATABASE_URL>postgres://wuwyvcrzjcydnv:8vG7aUP7tO8M4JaXrryQQAZlqH@ec2-54-197-245-93.compute-1.amazonaws.com:5432/d6prbg1ceja1kq</Env.DATABASE_URL>
+            </properties>
+        </action>
+        <action>
+            <actionName>run</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-classpath %classpath ${packageClassName}</exec.args>
+                <exec.executable>java</exec.executable>
+                <Env.DATABASE_URL>postgres://wuwyvcrzjcydnv:8vG7aUP7tO8M4JaXrryQQAZlqH@ec2-54-197-245-93.compute-1.amazonaws.com:5432/d6prbg1ceja1kq</Env.DATABASE_URL>
+            </properties>
+        </action>
+    </actions>
